@@ -1,0 +1,169 @@
+<html>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<head>
+  <title>
+      2018-2019第二学期课程表
+  </title>
+  <style>
+   
+    td,tr {
+      text-align: center;
+      font-size: 2vmin;
+      -webkit-border-radius: 25px;
+      border-radius: 25px;
+    }
+    
+    td.act:hover {
+      text-align: center;
+      position: relative;  /*相对于当前位置进行变动*/
+      top: -2px; /*向上移动2像素*/
+      left: -2px;/*向左移动2像素*/
+      box-shadow: 3px 3px 18px rgb(114, 13, 63);
+    }
+
+    .cell {
+      height: 4em;
+      width: 11em;
+      text-align: center;
+      -webkit-border-radius: 25px;
+      border-radius: 25px;
+    }
+
+   .cell>.detail {
+      display: none; /*cell下的类名叫detail元素 缺省不显示*/
+     
+    }
+
+    .cell>.detail.open {
+      display: block;/*元素显示*/
+      position: absolute;
+      height: 5em;
+      width: 11em;
+      text-align: center;
+      -webkit-border-radius: 25px;
+      border-radius: 25px;
+      background-color: rgb(248, 242, 150);
+    }
+  
+    .a {
+      border: 2px solid  rgb(248, 152, 181);
+      -webkit-border-radius: 25px;
+      border-radius: 25px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .b {
+        text-align: center;
+    }
+
+   .kongbai{
+       background-color: rgb(250, 200, 217);
+       text-align: center;
+   }
+
+   .ppp {
+       text-align: center;
+       background-color: rgba(248, 170, 170, 0.952);
+       border: 1px solid  rgb(255, 255, 255);
+   }
+   
+  </style>
+</head>
+
+<body>
+  <h4 class="b" >2018-2019第二学期课程表</h4>
+  <table id="grid" class="a" > 
+  </table>
+
+  <script>
+    let classtime = new Array //创建一个名叫classtime的数组
+    (
+         " ", "周一<br/>MON", "周二<br/>TUE", "周三<br/>WED", "周四<br/>THU", "周五<br/>FRI", 
+         "第一大节<br/>8:20~10:00", "web应用开发技术<br/>（单周）", "西方文化简史", "管理信息系统<br/>（单周）", "运营管理（单周）<br/>数据库原理及应用<br/>（双周）", "  ", 
+         "第二大节<br/>10:20~12:00","毛泽东思想与中国特色社会主义理论体系概论", "管理科学基础", "毛泽东思想与中国特色社会主义理论体系概论", "管理科学基础", "运营管理" , 
+         "  ", "午", " ", " ", "休", " ", 
+         "第三大节<br/>14:00~15:40", "管理信息系统", " ", "会计学（单周）<br/> web应用开发技术<br/>上机（双周）", "体育<br/>（羽毛球）", "毛泽东思想与中国特色社会主义理论体系概论",
+         "第四大节<br/>16:00~17:40", "电子商务", "数据库原理及应用", " ", "会计学", " "
+     );
+    
+     let classroom = new Array //创建一个名叫classroom的数组
+     (
+         " ", " ", " ", " ", " ", " ",
+         " ", "第一公教C411", "第一公教C311", "第一公教C105", "第一公教B405", " ",
+         " ", "第一公教A120", "第一公教C411", "第一公教A120", "第一公教C411", "第一公教B405", 
+         " ", " ", " ", " ", " ", " ",
+         " ", "第一公教C105", " ", "第一公教B101<br/>（会计学）<br/>管院机房（web上机）", "体育馆", "第一公教A120",
+         " ", "第一公教B303", "第一公教C109", " ", "第一公教B101", " ", 
+      );
+    
+      let tblEl = document.getElementById('grid');//生成table元素，找到grid赋值给它
+      for (let i = 0; i < 6; i++) 
+      {
+        let trEl = document.createElement('tr');//生成tr元素（共6行）
+        for (let j = 0; j < 6; j++)//将tr元素添到table里
+        {
+            let tdEl = document.createElement('td');//创建td元素（共6列）
+
+            let divEl = document.createElement('div');//创建div元素
+            divEl.className = 'cell';//div元素采取cell的样式
+
+        let detailDivEl = document.createElement('div');
+        if (i!=0 && i!=3 && ((6*i+j)%6)!=0) 
+        {
+          detailDivEl.className = 'detail';//将detail样式给detailDivEl
+          detailDivEl.innerHTML = classroom[6*i+j];//在detailDivEl中以6*i+j形式添加classroom中的文本
+        }
+
+        detailDivEl.onmouseout = function (event) //鼠标离开目标时触发事件
+        {
+          let names = detailDivEl.className.split(' ');//将detailDivEl元素以空格形式做拆分赋给names
+          names = names.filter((x) => x != 'open');//过滤掉刚才定义的names中所有等于open的函数，将其再次赋给names
+          detailDivEl.className = names.join(' ');//将names中的元素加入空格分隔开，送回到dD.c中
+        }
+
+        divEl.append(detailDivEl);//在div元素中插入detailDiv    （append在开头插入 prepend在结尾插入）
+        let briefDivEl = document.createElement('div');//创建brifediv元素
+        briefDivEl.innerHTML = classtime[6*i+j];//在briefDivEl中以6*i+j形式添加classtime中的文本
+        
+        divEl.append(briefDivEl);//在块元素divEL开头插入briefDivEl
+        
+        
+        tdEl.onclick = function (event)//点击显示详细事件
+        {
+            let names = detailDivEl.className.split(' ');
+            if (names.indexOf('open') > 0)//如果names查找到了open元素
+            {
+                names = names.filter((x) => x != 'open');//把当前open元素去掉并赋给names
+            }
+            else
+            {
+                names.push('open');//如果没有找到，将open样式给names
+            }
+            detailDivEl.className = names.join(' ');//最后将names元素以空格拆分，送回到dD.c中
+        }
+
+        let classNames=[];//classNames作为数组的名字
+
+        if (i==3||(6*i+j)%6==0||(6*i+j)/6<1)
+            classNames.push('kongbai');//如果满足if条件，将kongbai样式给classnames
+      
+        if (i!=0&&i!=3&&(6*i+j)%6!=0)
+          classNames.push('act',"ppp");//如果满足if条件，将act，ppp样式给classnames
+
+          tdEl.className = classNames.join(' ');//以空格的形式将两个类名间隔开赋给tdEl
+
+        tdEl.append(divEl);//将div元素插入td中
+        trEl.append(tdEl);//将td元素插入tr中
+      }
+      tblEl.append(trEl);//将tr元素插入table中
+    }
+
+  </script>
+  
+</body>
+
+</html>
